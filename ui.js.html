@@ -1,0 +1,56 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+</script>
+<script>
+  /**
+   * On document load, assign click handlers to each button and try to load the
+   * user's origin and destination language preferences if previously set.
+   */
+  $(function() {    
+    google.script.run
+        .withSuccessHandler(
+          function(details, element) {                                 
+            $('#user-name').html(details.username);
+            $('#usage-stats').html(details.usage);
+            element.disabled = false;             
+          })
+        .withFailureHandler(
+          function(msg, element) {
+            showError(msg, $('#user-name'));
+            element.disabled = false;
+          })
+        .withUserObject(this)
+        .getUserDetails();
+    $('#calculate').click(calculate);
+  });
+
+  function calculate() {
+    this.disabled = true;
+    $('#error').remove();
+    google.script.run
+        .withSuccessHandler(
+          function(link, element) {         
+            showError("Finished successfully!", $('#calculate'));   
+            $('#report-url').html(link);
+            $('#spreadsheet').attr('src', link+'?embedded=true')
+            element.disabled = false;
+          })
+        .withFailureHandler(
+          function(msg, element) {
+            showError(msg, $('#calculate'));
+            element.disabled = false;
+          })
+        .withUserObject(this)
+        .driveUsageByFolder();
+  }
+  
+  /**
+   * Inserts a div that contains an error message after a given element.
+   *
+   * @param msg The error message to display.
+   * @param element The element after which to display the error.
+   */
+  function showError(msg, element) {
+    var div = $('<div id="error" class="error">' + msg + '</div>');
+    $(element).after(div);
+  }
+</script>

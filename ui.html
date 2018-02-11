@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+<?!= include('ui.css.html'); ?>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <title>Drive Usage App</title>
+  <body>    
+    <div class="col-contain">
+    <div class="col">
+      <h2>      
+      <div id="user-name">user</div>
+      <div id="usage-stats">usage</div>      
+      <button class="colored" id="calculate">Calculate drive space</button>
+      <div id="report-url"></div>
+      </h2>
+      <iframe id='spreadsheet'></iframe>
+    </div>
+    </div>
+    
+  </body>
+
+
+<?!= include('ui.js.html'); ?>
+</html>
